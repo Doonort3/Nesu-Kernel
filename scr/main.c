@@ -9,36 +9,45 @@
  * 
  */
 
+#define LIN 25
+#define COL 85
+#define SCREEN LIN * COL
+
+char *vidptr = (char*)0xb8000;                  // начало видеопамяти в защищённом режиме
+int cursor_pos_x = 0;                           // положение курсора x
+int cursor_pos_y = 0;                           // положение курсора y
+int i = 0;
+                   
+/// @brief Функция, которая очищает экран указанным цветов (0x02 чёрный/зелёный)
+/// @param i 
+void clearScreen(unsigned int i)
+{
+    while (i < SCREEN * 2)
+    {
+        vidptr[i++] = ' ';
+        vidptr[i++] = 0x02;
+    }
+}
+
+/// @brief  Функция, которая печатает символы до символа конца строки
+/// @param i 
+/// @param string 
+void kprint(unsigned int i, const char *string)
+{
+    while (string[i] != '\0')
+    {
+        vidptr[cursor_pos_x++] = string[i++];
+        vidptr[cursor_pos_x++] = 0x02;
+    }
+}
+
+/// @brief Главная функция. Вызывает clearScreen и kprint с указанным тектом
+/// @param  
 void kmain(void)
 {
-
-    /* Объявление указателей для текста и начала адреса видеопамяти. */
-    const char *strptr = "Hello, World!";   // выводимая строка
-    char *vidptr = (char*)0xb8000;          // начало видеопамяти
-    unsigned int i = 0;
-    unsigned int j = 0;
-
-    /* Заливка фона пустым символом. */
-    while (j < 80 * 25 * 2)                 // 25 строк; 80 столбов по 2 байта
-    {
-        vidptr[j] = ' ';                    // пустой символ    
-        vidptr[j + 1] = 0x07;               // атрибут байта - серый текст на чёрном фоне
-        j = j + 2;                          // +2 байта          
-    }
-
-    j = 0;                                  // "В начало консоли"
-
-
-    /* Запись строки в видеопамять. */
-    while (strptr[j] != '\0')               // символ конца строки      
-    {
-        vidptr[i] = strptr[j];
-        vidptr[i + 1] = 0x07;
-        ++j;
-        i = i + 2;
-    }
+    clearScreen(i);
+    kprint(i, "CLEAR SCREEN: Successfully.");
+    kprint(i, " OUTPUT STR: Successfully.");
 
     return;
 }
-    
-    
