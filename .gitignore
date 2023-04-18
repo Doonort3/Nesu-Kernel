@@ -1,1 +1,4 @@
-*.o
+
+bin/kasm.o
+bin/kc.o
+bin/main.o
