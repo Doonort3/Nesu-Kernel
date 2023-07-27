@@ -18,4 +18,5 @@ start:
 
 section .bss
 resb 8192                       ; резервировать 8 килобайт
+
 stack_space:

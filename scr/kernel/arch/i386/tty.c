@@ -61,14 +61,15 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 	terminal_buffer[index] = vga_entry(c, color);
 }
  
- void terminal_delete_last_line() {
+/*void terminal_delete_last_line() {
 	int x, *ptr;
  
 	for(x = 0; x < VGA_WIDTH * 2; x++) {
 		ptr = 0xB8000 + (VGA_WIDTH * 2) * (VGA_HEIGHT - 1) + x;
 		*ptr = 0;
 	}
-}
+}*/
+
 void terminal_putchar(char c) 
 {
 	if (c == '\n') 
@@ -85,7 +86,7 @@ void terminal_putchar(char c)
 		if (++terminal_column == VGA_WIDTH) {
 			terminal_column++;
 			if (++terminal_row == VGA_HEIGHT)
-				terminal_delete_last_line();
+				// terminal_delete_last_line();
 				terminal_row = VGA_HEIGHT - 1;
 		}
 	}
