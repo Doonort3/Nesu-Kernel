@@ -2,4 +2,3 @@
 *.o
 main.c
 makefile
-.vscode
