@@ -8,6 +8,9 @@
  * @copyright Copyright (c) 2023
  * 
  */
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #define LIN 25
 #define COL 85
@@ -41,13 +44,30 @@ void kprint(unsigned int i, const char *string)
     }
 }
 
+void kprintnl(unsigned int i, const char *string)
+{
+    while (string[i] != '\0')
+    {
+        if (string[i] == '\n')
+        {
+            cursor_pos_y = cursor_pos_y + 1;
+        }
+
+        vidptr[cursor_pos_x++] = string[i++];
+        vidptr[cursor_pos_x++] = 0x02;
+    }
+}
+
+
+
 /// @brief Главная функция. Вызывает clearScreen и kprint с указанным тектом
 /// @param  
 void kmain(void)
 {
     clearScreen(i);
-    kprint(i, "CLEAR SCREEN: Successfully.");
-    kprint(i, " OUTPUT STR: Successfully.");
+    kprintnl(i, "CLEAR SCREEN: Successfully.\n");
+    kprintnl(i, "OUTPUT STR: Successfully.\n");
+    kprintnl(i, "NEW LINE: Successfully.");
 
     return;
 }
